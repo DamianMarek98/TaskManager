@@ -1,0 +1,110 @@
+﻿<Window x:Class="TaskManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskManager"
+        mc:Ignorable="d"
+        Title="Task Manager" Height="720" Width="1080" ResizeMode="NoResize" Loaded="Window_Loaded">
+
+    <Border Padding="10">
+        <StackPanel>
+            <Grid Width="1060" HorizontalAlignment="left">
+                <TextBlock Text="Tasks list: " FontWeight="Bold" FontSize="16" Width="80" HorizontalAlignment="left" Margin="0,0,0,-0.4"/>
+                <TextBlock x:Name="NewOrEditTaskInfoTExtBox" Text="New task data:" FontWeight="Bold" FontSize="16" Width="520" HorizontalAlignment="Right"/>
+                <CheckBox x:Name="SortByStatusCheckBox" Content="Sort by Status"  HorizontalAlignment="Right" Margin="0,3,675,-3.4" Width="100" Click="SortByStatusCheckBox_Click"/>
+            </Grid>
+
+            <!-- Grid for task list -->
+            <Grid Height="600" Width="1060" FlowDirection="LeftToRight">
+                <!--list view of all tasks-->
+                <ListView Name="lvTasks" SelectionChanged="lvTasks_SelectionChanged" Width="530" HorizontalAlignment="Left">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding TaskName}" />
+                            <GridViewColumn x:Name="DateColumn" Header="Date" Width="80" DisplayMemberBinding="{Binding TaskDate}" />
+                            <GridViewColumn Header="Status" Width="100" DisplayMemberBinding="{Binding TaskStatus}" />
+                        </GridView>
+                    </ListView.View>
+
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                </ListView>
+
+                <!--form controls to edit task-->
+                <TextBox  Name="SelectedTaskContent" TextWrapping="Wrap" Text="" Width="500" Height="300" TextAlignment="Left" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0" TextChanged="SelectedTaskContent_TextChanged"/>
+                <Grid  Width="500" Height="300" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,0">
+                    <!--name-->
+                    <TextBlock Text="Name: " Width="50" Height="20" Margin="5,4,445,276" RenderTransformOrigin="0.488,0.49"/>
+                    <TextBox x:Name="TaskNameEditTextBox" Text="" Height="20" Margin="55,4,245,276" TextChanged="TaskNameEditTextBox_TextChanged"/>
+                    <!--priority-->
+                    <TextBlock Text="Priority: " Width="50" Height="20" Margin="5,39,445,241" RenderTransformOrigin="0.488,0.49"/>
+                    <ComboBox x:Name="PriorityEditComboBox" Margin="55,34,350,241">
+                        <ComboBoxItem>
+                            <StackPanel >
+                                <TextBlock TextAlignment="Center">low</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>normal</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal" Width="85">
+                                <TextBlock>high</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                    <!--status-->
+                    <TextBlock Text="Status: " Width="50" Height="20" Margin="5,74,445,206" RenderTransformOrigin="0.488,0.49"/>
+                    <ComboBox x:Name="StatusEditComboBox" Margin="55,69,350,206">
+                        <ComboBoxItem>
+                            <StackPanel >
+                                <TextBlock TextAlignment="Center">new</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>in progress</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal" Width="85">
+                                <TextBlock>finished</TextBlock>
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                    <!--date-->
+                    <TextBlock Text="Date: " Width="50" Height="20" Margin="5,109,445,171" RenderTransformOrigin="0.488,0.49"/>
+                    <TextBlock Text="*" Height="20" Margin="171,104,320,176" RenderTransformOrigin="0.488,0.49"/>
+                    <TextBlock Text="* Optional field" Height="20" Margin="401,274,10,6" RenderTransformOrigin="0.488,0.49"/>
+
+                    <DatePicker Name="TaskDatePicker" Width="110" Height="25" Margin="55,104,335,171" />
+                    <!--conditions with length of task name and content-->
+                    <TextBlock x:Name="NumberOfCharactersInNameTextBox" Foreground="Red" Text="" Height="20" Margin="260,4,180,276"/>
+                    <TextBlock x:Name="NumberOfCharactersInContentTextBox" Text="Number of characters: " Height="20" Margin="341,4,5,276"/>
+                    <!--save-->
+                    <Button x:Name="SaveChangesButton" IsEnabled="False" Width="60" Content="Save" Margin="55,143,385,136" Click="SaveChangesButton_Click"/>
+                </Grid>
+
+
+            </Grid>
+            <!--grid with control buttons (add,delete)-->
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="AddNewTask" Content="Add New" Margin="0,-2,-0.2,0.8" Click="AddNewTask_Click"></Button>
+                <Button x:Name="DeleteSelectedTask" Content="Delete Selected" Margin="70,-1,-104.2,0.8" Click="DeleteSelectedTask_Click"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+</Window>
